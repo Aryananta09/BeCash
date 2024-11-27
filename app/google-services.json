@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "500027146159",
+    "project_id": "becash-8f35d",
+    "storage_bucket": "becash-8f35d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:500027146159:android:6614f6d92d195b2676b95a",
+        "android_client_info": {
+          "package_name": "aryananta.mobile.becash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD83mWMqz0MI4zNh0cc4-4JeRi9SjBQkec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
