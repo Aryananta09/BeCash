@@ -2,6 +2,7 @@ package aryananta.mobile.becash;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -19,19 +20,24 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class BidAdapter extends RecyclerView.Adapter {
-
+    public static final String
+            DBURL = "https://becash-8f35d-default-rtdb.asia-southeast1.firebasedatabase.app/";
     private final Context ctx;
-    private final List<Produk> koleksi;
+    private final List<Bid> koleksi;
     private DatabaseReference dbRef;
 
-    public BidAdapter(Context ctx, List<Produk> koleksi){
+    public BidAdapter(Context ctx, List<Bid> koleksi){
         this.ctx = ctx;
         this.koleksi = koleksi;
     }
@@ -50,7 +56,7 @@ public class BidAdapter extends RecyclerView.Adapter {
         private final ImageView gambar;
         private final Button btTawar;
 
-        private Produk bid;
+        private Bid bid;
 
         public VH(@NonNull View itemView) {
             super(itemView);
@@ -64,7 +70,7 @@ public class BidAdapter extends RecyclerView.Adapter {
             this.btTawar = itemView.findViewById(R.id.btTawar);
             btTawar.setOnClickListener(this);
         }
-        private void setBid(Produk b){
+        private void setBid(Bid b){
 
             this.bid = b;
         }
@@ -114,34 +120,38 @@ public class BidAdapter extends RecyclerView.Adapter {
                         waktuBid = "";
                     }
 
-                    // Update Firebase Database
+                    // Update Firebase Database untuk Bid
                     if (dbRef != null && bid != null) {
-                        // Data untuk diupdate
-                        String bidId = bid.getId(); // Pastikan `Produk` memiliki metode getId()
+                        String bidId = bid.getId(); // Pastikan `Bid` memiliki metode getId()
                         if (bidId == null) {
                             Toast.makeText(ctx, "ID produk tidak valid!", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        Produk updatedProduk = new Produk(
-                                bid.getId(),
+                        // Buat objek Bid yang telah diperbarui
+                        Bid updatedBid = new Bid(
+                                bidId,
+                                bid.getProdukid(),
                                 bid.getNama_barang(),
-                                namaBid,
                                 bid.getNama_penjual(),
-                                bid.getDeskripsi(),
+                                namaBid, // Nama penawar yang diinputkan
                                 bid.getAlamat(),
-                                bid.getHarga(),
-                                hargaBid,
-                                bid.getTanggal(),
-                                tanggalBid,
-                                bid.getWaktu(),
-                                waktuBid,
+                                hargaBid, // Harga bid yang diinputkan
+                                tanggalBid, // Tanggal saat bid dimasukkan
+                                waktuBid, // Waktu saat bid dimasukkan
                                 ""
                         );
 
-                        dbRef.child(bidId).setValue(updatedProduk)
-                                .addOnSuccessListener(aVoid ->
-                                        Toast.makeText(ctx, "Bid berhasil diperbarui!", Toast.LENGTH_SHORT).show())
+                        // Update bid di Firebase
+                        String finalTanggalBid = tanggalBid;
+                        String finalWaktuBid = waktuBid;
+                        dbRef.child(bidId).setValue(updatedBid)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(ctx, "Bid berhasil diperbarui!", Toast.LENGTH_SHORT).show();
+
+                                    // Setelah bid diperbarui, update produk yang terkait
+                                    updateProduk(bid.getProdukid(), hargaBid, namaBid, finalTanggalBid, finalWaktuBid);
+                                })
                                 .addOnFailureListener(e -> {
                                     Log.e("FirebaseError", "Error updating bid", e);
                                     Toast.makeText(ctx, "Terjadi kesalahan saat memperbarui bid!", Toast.LENGTH_SHORT).show();
@@ -172,51 +182,21 @@ public class BidAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Produk b =this.koleksi.get(position);
+        Bid b =this.koleksi.get(position);
         VH vh = (VH) holder;
-        vh.nama_barang.setText(b.nama_barang);
-        vh.nama_penjual.setText(b.nama_penjual);
-        vh.harga.setText((b.tawaran == null || b.tawaran.isEmpty()) ? "Belum Ada Tawaran" : "RP " + b.tawaran);
-        vh.alamat.setText(b.alamat);
-        vh.tanggal.setText(b.tanggal_bid);
-        vh.waktu.setText(b.waktu_bid);
-//        vh.gambar.setImageResource(R.drawable.holder);
-
-        switch (b.nama_barang){
-            case "Sepatu Nike":
-                vh.gambar.setImageResource(R.drawable.sepatu_nike);
-                break;
-            case "Sepatu Converse":
-                vh.gambar.setImageResource(R.drawable.sepatu_converse);
-                break;
-            case "Televisi":
-                vh.gambar.setImageResource(R.drawable.img_tv);
-                break;
-            case "Iphone 12":
-                vh.gambar.setImageResource(R.drawable.img_iphone);
-                break;
-            case "Rubicon":
-                vh.gambar.setImageResource(R.drawable.rubicon);
-                break;
-            case "Innova":
-                vh.gambar.setImageResource(R.drawable.innova);
-                break;
-            case "Kursi Kayu":
-                vh.gambar.setImageResource(R.drawable.kursi_kayu);
-                break;
-            case "Lemari Antik":
-                vh.gambar.setImageResource(R.drawable.lemari_antik);
-                break;
-            case "Meja Belajar":
-                vh.gambar.setImageResource(R.drawable.meja_belajar);
-                break;
-            case "Rak Meja":
-                vh.gambar.setImageResource(R.drawable.img_tv);
-                break;
-            default: vh.gambar.setImageResource(R.drawable.holder);
-            break;
+        vh.nama_barang.setText(b.getNama_barang());
+        vh.nama_penjual.setText(b.getNama_penjual());
+        vh.harga.setText((b.getHarga() == null || b.getHarga().isEmpty()) ? "Belum Ada Tawaran" : "RP " + b.getHarga());
+        vh.alamat.setText(b.getAlamat());
+        vh.tanggal.setText(b.getTanggal());
+        vh.waktu.setText(b.getWaktu());
+        String base64Image = b.getGambar();
+        if (base64Image != null) {
+            Bitmap bitmap = Base64Image.base64ToBitmap(base64Image); // Konversi Base64 ke Bitmap
+            vh.gambar.setImageBitmap(bitmap); // Tampilkan di ImageView
         }
-
+        else {
+            vh.gambar.setImageResource(R.drawable.holder);}
         vh.setBid(b);
     }
 
@@ -224,4 +204,42 @@ public class BidAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return koleksi.size();
     }
+    private void updateProduk(String produkId, String hargaBid, String namaPenawar, String tanggalBid, String waktuBid) {
+        DatabaseReference dbProdukRef = FirebaseDatabase.getInstance(DBURL).getReference("produk");
+
+        // Ambil produk berdasarkan produkId
+        dbProdukRef.child(produkId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Produk produk = snapshot.getValue(Produk.class);
+                    if (produk != null) {
+
+                        produk.setTawaran(hargaBid);
+                        produk.setNama_penawar(namaPenawar);
+                        produk.setTanggal_bid(tanggalBid);
+                        produk.setWaktu_bid(waktuBid);
+
+                        // Update produk di Firebase
+                        dbProdukRef.child(produkId).setValue(produk)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(ctx, "Produk berhasil diperbarui!", Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e("FirebaseError", "Error updating product", e);
+                                    Toast.makeText(ctx, "Terjadi kesalahan saat memperbarui produk!", Toast.LENGTH_SHORT).show();
+                                });
+                    }
+                } else {
+                    Toast.makeText(ctx, "Produk tidak ditemukan!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("FirebaseError", "Error fetching product data: " + error.getMessage());
+            }
+        });
+    }
+
 }

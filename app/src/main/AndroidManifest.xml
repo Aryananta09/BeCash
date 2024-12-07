@@ -15,6 +15,18 @@
         android:theme="@style/Theme.BeCash"
         tools:targetApi="31">
         <activity
+            android:name=".DetailItem"
+            android:exported="false" />
+        <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RiwayatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LelangLive"
+            android:exported="false" />
+        <activity
             android:name=".Transaksi"
             android:exported="false" />
         <activity

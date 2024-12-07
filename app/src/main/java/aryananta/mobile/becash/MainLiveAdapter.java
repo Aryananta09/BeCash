@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,39 +17,31 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
 
-public class MainAdapter extends RecyclerView.Adapter {
+public class MainLiveAdapter extends RecyclerView.Adapter {
 
     private final Context ctx;
     private final List<Produk> koleksi;
     private DatabaseReference dbRef;
 
-    public MainAdapter(Context ctx, List<Produk> koleksi){
+    public MainLiveAdapter(Context ctx, List<Produk> koleksi) {
         this.ctx = ctx;
         this.koleksi = koleksi;
     }
-
     public void setDbRef(DatabaseReference dbRef) {
         this.dbRef = dbRef;
     }
 
     public class VH extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final TextView tvJudul;
-        private final TextView tvHarga;
-        private final TextView tvTanggal;
-        private final TextView tvWaktu;
-        private final ImageView gambar;
-        private final Button btDetail;
+        private final ImageView ivGambar;
+        private final TextView tvJudul, tvHarga;
         private Produk itemProduk;
 
         public VH(@NonNull View itemView) {
             super(itemView);
             tvJudul = itemView.findViewById(R.id.tvNama);
             tvHarga = itemView.findViewById(R.id.tvHarga);
-            tvTanggal = itemView.findViewById(R.id.tvTanggal);
-            tvWaktu = itemView.findViewById(R.id.tvWaktu);
-            gambar = itemView.findViewById(R.id.ivImage);
-            btDetail = itemView.findViewById(R.id.btBid);
-            btDetail.setOnClickListener(this);
+            ivGambar = itemView.findViewById(R.id.ivGambar);
+            itemView.setOnClickListener(this);
         }
         private void setProduk(Produk p){
             this.itemProduk = p;
@@ -58,26 +49,19 @@ public class MainAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View view) {
-            String id = this.itemProduk.getId();
-            String judul = this.itemProduk.nama_barang;
-            String penjual = this.itemProduk.nama_penjual;
-            String alamat = this.itemProduk.alamat;
-            String harga = this.itemProduk.hargaOpen;
-            String tanggal = this.itemProduk.tanggal;
-            String waktu = this.itemProduk.waktu;
-            String deskripsi = this.itemProduk.deskripsi;
-
+            Intent intent = new Intent(ctx, DetailActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("id", id);
-            bundle.putString("judul", judul);
-            bundle.putString("penjual", penjual);
-            bundle.putString("alamat", alamat);
-            bundle.putString("harga", harga);
-            bundle.putString("tanggal", tanggal);
-            bundle.putString("waktu", waktu);
-            bundle.putString("deskripsi", deskripsi);
+            bundle.putString("id", String.valueOf(itemProduk.getId()));
+            bundle.putString("judul", itemProduk.getNama_barang());
+            bundle.putString("penjual", itemProduk.getNama_penjual());
+            bundle.putString("alamat", itemProduk.getAlamat());
+            bundle.putString("hargaOpen", itemProduk.getHargaOpen());
+            bundle.putString("hargaBuyNow", itemProduk.getHargaBuyNow());
+            bundle.putString("tanggal", itemProduk.getTanggal());
+            bundle.putString("waktu", itemProduk.getWaktu());
+            bundle.putString("deskripsi", itemProduk.getDeskripsi());
+            bundle.putString("gambar", itemProduk.getGambar());
 
-            Intent intent = new Intent(ctx, DetailItem.class);
             intent.putExtras(bundle);
             ctx.startActivity(intent);
         }
@@ -86,7 +70,7 @@ public class MainAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(this.ctx).inflate(R.layout.item_main, parent, false);
+        View v = LayoutInflater.from(this.ctx).inflate(R.layout.item_mainlive, parent, false);
         VH vh = new VH(v);
         return vh;
     }
@@ -96,17 +80,14 @@ public class MainAdapter extends RecyclerView.Adapter {
         Produk p =this.koleksi.get(position);
         VH vh = (VH) holder;
         vh.tvJudul.setText(p.nama_barang);
-        vh.tvHarga.setText("RP " + p.hargaOpen);
-        vh.tvTanggal.setText(p.tanggal);
-        vh.tvWaktu.setText(p.waktu);
+        vh.tvHarga.setText(p.hargaOpen);
         String base64Image = p.gambar;
         if (base64Image != null) {
             Bitmap bitmap = Base64Image.base64ToBitmap(base64Image); // Konversi Base64 ke Bitmap
-            vh.gambar.setImageBitmap(bitmap); // Tampilkan di ImageView
+            vh.ivGambar.setImageBitmap(bitmap); // Tampilkan di ImageView
         }
         else {
-            vh.gambar.setImageResource(R.drawable.holder);}
-
+        vh.ivGambar.setImageResource(R.drawable.holder);}
         vh.setProduk(p);
     }
 

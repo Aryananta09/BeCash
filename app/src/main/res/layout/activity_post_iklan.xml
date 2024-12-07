@@ -8,6 +8,20 @@
     android:background="#E83030"
     tools:context=".PostIklan">
 
+    <Button
+        android:id="@+id/btn_post_iklan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="#A9A9A9"
+        android:text="Post Iklan"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
     <ImageButton
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
@@ -29,257 +43,282 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_info_barang"
-        android:layout_width="381dp"
-        android:layout_height="615dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/white"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
+        android:background="@color/white"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_Headline">
+        app:layout_constraintTop_toBottomOf="@+id/tv_Headline">
 
-        <!-- Konten di dalam CardView -->
-        <LinearLayout
+        <EditText
+            android:id="@+id/et_alamat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#CCCCCC"
+            android:hint="Masukkan Alamat"
+            android:minHeight="48dp"
+            android:textColor="@color/colorText"
+            android:textColorHint="@color/colorHint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPenjual" />
+
+        <EditText
+            android:id="@+id/et_deskripsi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:backgroundTint="#CCCCCC"
+            android:gravity="top"
+            android:hint="Masukkan Deskripsi Barang yang Akan Dilelangkan"
+            android:minHeight="60dp"
+            android:textColor="@color/colorText"
+            android:textColorHint="@color/colorHint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_deskripsi" />
 
-            <!-- Informasi Barang -->
-            <TextView
-                android:id="@+id/tv_info_barang"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Informasi Barang"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_deskripsi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Deskripsi"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutWaktu" />
 
-            <TextView
-                android:id="@+id/tv_nama"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Nama Anda"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_nama"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#CCCCCC"
-                android:hint="Masukkan Nama Anda"
-                android:minHeight="48dp"
-                android:textColor="@color/colorText"
-                android:textColorHint="@color/colorHint" />
-
-            <!-- Judul Barang -->
-            <TextView
-                android:id="@+id/tv_judul_barang"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Judul Barang"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_judul_barang"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#CCCCCC"
-                android:hint="Masukkan Judul Barang"
-                android:minHeight="48dp"
-                android:textColor="@color/colorText"
-                android:textColorHint="@color/colorHint" />
-
-            <!-- Deskripsi Barang -->
-            <TextView
-                android:id="@+id/tv_deskripsi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Deskripsi"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_deskripsi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#CCCCCC"
-                android:gravity="top"
-                android:hint="Masukkan Deskripsi Barang yang Akan Dilelangkan"
-                android:minHeight="100dp"
-                android:textColor="@color/colorText"
-                android:textColorHint="@color/colorHint" />
+        <LinearLayout
+            android:id="@+id/layoutHarga"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_alamat">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tv_harga_open_bid"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:text="Harga Open Bid"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_harga_open_bid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Harga Open Bid"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/et_harga_open_bid"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:backgroundTint="#CCCCCC"
-                        android:hint="Rp."
-                        android:inputType="numberDecimal"
-                        android:minHeight="48dp"
-                        android:textColor="@color/colorText"
-                        android:textColorHint="@color/colorHint" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <EditText
+                    android:id="@+id/et_harga_open_bid"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_harga_buy_now"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Harga Buy Now"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/et_harga_buy_now"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:backgroundTint="#CCCCCC"
-                        android:hint="Rp."
-                        android:inputType="numberDecimal"
-                        android:minHeight="48dp"
-                        android:textColor="@color/colorText"
-                        android:textColorHint="@color/colorHint" />
-                </LinearLayout>
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#CCCCCC"
+                    android:hint="Rp."
+                    android:inputType="numberDecimal"
+                    android:minHeight="48dp"
+                    android:textColor="@color/colorText"
+                    android:textColorHint="@color/colorHint" />
             </LinearLayout>
 
-            <!-- Batas Lelang: Tanggal dan Waktu dalam satu baris -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tv_harga_buy_now"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:text="Harga Buy Now"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_tanggal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pilih Tanggal"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/et_tanggal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:backgroundTint="#CCCCCC"
-                        android:focusable="false"
-                        android:hint="Tanggal"
-                        android:inputType="none"
-                        android:minHeight="48dp"
-                        android:textColor="@color/colorText"
-                        android:textColorHint="@color/colorHint" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <EditText
+                    android:id="@+id/et_harga_buy_now"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_waktu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pilih Waktu"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/et_waktu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:backgroundTint="#CCCCCC"
-                        android:focusable="false"
-                        android:hint="Waktu"
-                        android:inputType="none"
-                        android:minHeight="48dp"
-                        android:textColor="@color/colorText"
-                        android:textColorHint="@color/colorHint" />
-                </LinearLayout>
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#CCCCCC"
+                    android:hint="Rp."
+                    android:inputType="numberDecimal"
+                    android:minHeight="48dp"
+                    android:textColor="@color/colorText"
+                    android:textColorHint="@color/colorHint" />
             </LinearLayout>
-<!--            &lt;!&ndash; Foto Barang &ndash;&gt;-->
-<!--            <TextView-->
-<!--                android:id="@+id/tv_foto_barang"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:text="Foto Barang"-->
-<!--                android:textStyle="bold" />-->
-
-<!--            <ImageButton-->
-<!--                android:id="@+id/bt_foto_barang"-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:background="#808080"-->
-<!--                android:scaleType="centerInside"-->
-<!--                android:src="@drawable/ic_add_photo" />-->
-
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/btn_post_iklan"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="#A9A9A9"
-        android:text="Post Iklan"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_info_barang" />
+        <LinearLayout
+            android:id="@+id/layoutWaktu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintTop_toBottomOf="@+id/layoutHarga"
+            tools:layout_editor_absoluteX="-16dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_tanggal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pilih Tanggal"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_tanggal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#CCCCCC"
+                    android:focusable="false"
+                    android:hint="Tanggal"
+                    android:inputType="none"
+                    android:minHeight="48dp"
+                    android:textColor="@color/colorText"
+                    android:textColorHint="@color/colorHint" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_waktu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pilih Waktu"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_waktu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#CCCCCC"
+                    android:focusable="false"
+                    android:hint="Waktu"
+                    android:inputType="none"
+                    android:minHeight="48dp"
+                    android:textColor="@color/colorText"
+                    android:textColorHint="@color/colorHint" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/bt_foto_barang"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:background="#808080"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_add_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_foto_barang" />
+
+        <TextView
+            android:id="@+id/tv_foto_barang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="28dp"
+            android:text="Foto Barang"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_info_barang" />
+
+        <EditText
+            android:id="@+id/et_judul_barang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#CCCCCC"
+            android:hint="Masukkan Judul Barang"
+            android:minHeight="48dp"
+            android:textColor="@color/colorText"
+            android:textColorHint="@color/colorHint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_judul_barang" />
+
+        <TextView
+            android:id="@+id/tv_judul_barang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Judul Barang"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_nama" />
+
+        <EditText
+            android:id="@+id/et_nama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#CCCCCC"
+            android:hint="Masukkan Nama Anda"
+            android:minHeight="24dp"
+            android:textColor="@color/colorText"
+            android:textColorHint="@color/colorHint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nama" />
+
+        <TextView
+            android:id="@+id/tv_nama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Nama Anda"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_info_barang" />
+
+        <TextView
+            android:id="@+id/tv_info_barang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Informasi Barang"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvPenjual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Alamat"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_judul_barang" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

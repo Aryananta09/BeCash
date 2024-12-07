@@ -21,8 +21,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class FragmentProduct extends Fragment {
     public static final String
@@ -58,19 +62,44 @@ public class FragmentProduct extends Fragment {
         this.dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dataset.clear();
-                for(DataSnapshot s : snapshot.getChildren()){
+                dataset.clear(); // Bersihkan dataset sebelumnya
+
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()); // Format tanggal dan waktu
+
+                // Ambil data dari snapshot
+                for (DataSnapshot s : snapshot.getChildren()) {
                     Produk produk = s.getValue(Produk.class);
-                    dataset.add(produk);
+                    if (produk != null) {
+                        dataset.add(produk); // Tambahkan produk ke dataset
+                    }
                 }
-                koleksiProductAdapter.notifyDataSetChanged();
+
+                // Urutkan dataset berdasarkan tanggal dan waktu tanpa atribut tambahan
+                dataset.sort((p1, p2) -> {
+                    try {
+                        String tanggalWaktuP1 = p1.getTanggal() + " " + p1.getWaktu();
+                        String tanggalWaktuP2 = p2.getTanggal() + " " + p2.getWaktu();
+
+                        Date t1 = sdf.parse(tanggalWaktuP1); // Parsing tanggal dan waktu p1
+                        Date t2 = sdf.parse(tanggalWaktuP2); // Parsing tanggal dan waktu p2
+
+                        // Perbandingan tanggal secara ascending
+                        return t1.compareTo(t2);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return 0; // Jika parsing gagal, anggap kedua produk sama
+                    }
+                });
+
+                koleksiProductAdapter.notifyDataSetChanged(); // Perbarui UI
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Tangani error jika ada
             }
         });
+
 
         return v;
     }

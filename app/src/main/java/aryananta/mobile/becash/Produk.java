@@ -8,12 +8,14 @@ import androidx.room.PrimaryKey;
 public class Produk {
 
     public String id;
+    public String status;
     public String nama_barang;
     public String nama_penawar;
     public String nama_penjual;
     public String deskripsi;
     public String alamat;
-    public String harga;
+    public String hargaOpen;
+    public String hargaBuyNow;
     public String tawaran;
     public String tanggal;
     public String tanggal_bid;
@@ -23,14 +25,15 @@ public class Produk {
 
     public Produk(){}
 
-    public Produk(String id, String nama_barang, String nama_penawar, String nama_penjual, String deskripsi, String alamat, String harga, String tawaran, String tanggal, String tanggal_bid, String waktu, String waktu_bid, String gambar) {
+    public Produk(String id, String status,String nama_barang, String nama_penawar, String nama_penjual, String deskripsi, String alamat, String harga,String hargaBuyNow, String tawaran, String tanggal, String tanggal_bid, String waktu, String waktu_bid, String gambar) {
         this.id = id;
         this.nama_barang = nama_barang;
         this.nama_penawar = nama_penawar;
         this.nama_penjual = nama_penjual;
         this.deskripsi = deskripsi;
         this.alamat = alamat;
-        this.harga = harga;
+        this.hargaOpen = harga;
+        this.hargaBuyNow = hargaBuyNow;
         this.tawaran = tawaran;
         this.tanggal = tanggal;
         this.tanggal_bid = tanggal_bid;
@@ -40,6 +43,9 @@ public class Produk {
     }
     public String getId() {
         return id;
+    }
+    public String getStatus() {
+        return status;
     }
 
     public String getNama_barang() {
@@ -62,8 +68,12 @@ public class Produk {
         return alamat;
     }
 
-    public String getHarga() {
-        return harga;
+    public String getHargaOpen() {
+        return hargaOpen;
+    }
+
+    public String getHargaBuyNow() {
+        return hargaBuyNow;
     }
 
     public String getTawaran() {
@@ -94,6 +104,10 @@ public class Produk {
         this.id = id;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public void setNama_barang(String nama_barang) {
         this.nama_barang = nama_barang;
     }
@@ -114,8 +128,12 @@ public class Produk {
         this.alamat = alamat;
     }
 
-    public void setHarga(String harga) {
-        this.harga = harga;
+    public void setHargaOpen(String harga) {
+        this.hargaOpen = harga;
+    }
+
+    public void setHargaBuyNow(String hargaBuyNow) {
+        this.hargaBuyNow = hargaBuyNow;
     }
 
     public void setTawaran(String tawaran) {

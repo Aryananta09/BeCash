@@ -5,36 +5,36 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
 public class PostIklan extends AppCompatActivity implements View.OnClickListener {
     public static final String
             DBURL = "https://becash-8f35d-default-rtdb.asia-southeast1.firebasedatabase.app/";
+    private static final int PICK_IMAGE_REQUEST = 1;
+
+    public String base64Image;
     private Button btnPost;
     private ImageButton btnBack;
-    private EditText etJudulBarang, etDeskripsi, etHargaOpenBid, etHargaBuyNow, etTanggal, etWaktu, et_nama;
+    private EditText etJudulBarang, etDeskripsi, etHargaOpenBid, etHargaBuyNow, etTanggal, etWaktu, et_nama, etAlamat;
     private FirebaseDatabase db;
     private DatabaseReference dbRef;
+    private ImageButton btnPhoto;
 
 
     @Override
@@ -44,6 +44,7 @@ public class PostIklan extends AppCompatActivity implements View.OnClickListener
 
         btnPost = this.findViewById(R.id.btn_post_iklan);
         btnBack = this.findViewById(R.id.backButton);
+        btnPhoto = this.findViewById(R.id.bt_foto_barang);
 
 
         et_nama = findViewById(R.id.et_nama);
@@ -53,9 +54,11 @@ public class PostIklan extends AppCompatActivity implements View.OnClickListener
         etHargaBuyNow = findViewById(R.id.et_harga_buy_now);
         etTanggal = findViewById(R.id.et_tanggal);
         etWaktu = findViewById(R.id.et_waktu);
+        etAlamat = findViewById(R.id.et_alamat);
 
         btnBack.setOnClickListener(this);
         btnPost.setOnClickListener(this);
+        btnPhoto.setOnClickListener(this);
         etTanggal.setOnClickListener(this);
         etWaktu.setOnClickListener(this);
 
@@ -129,6 +132,34 @@ public class PostIklan extends AppCompatActivity implements View.OnClickListener
                 .show();
     }
 
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+
+            try {
+                // Konversi URI ke Bitmap
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+
+                // Tampilkan gambar pada ImageButton
+                btnPhoto.setImageBitmap(bitmap);
+
+                // Encode gambar ke Base64
+                base64Image = Base64Image.bitmapToBase64(bitmap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     @Override
     public void onClick(View view) {
@@ -141,14 +172,17 @@ public class PostIklan extends AppCompatActivity implements View.OnClickListener
             String id = this.dbRef.push().getKey();
             Produk p = new Produk();
             p.setId(id);
+            p.setStatus("tidak aktif");
             p.setNama_barang(etJudulBarang.getText().toString());
             p.setNama_penjual(et_nama.getText().toString());
             p.setNama_penawar("Belum ada penawar");
             p.setDeskripsi(etDeskripsi.getText().toString());
-            p.setAlamat("Universitas Brawijaya");
-            p.setHarga(etHargaOpenBid.getText().toString());
+            p.setAlamat(etAlamat.getText().toString());
+            p.setHargaOpen(etHargaOpenBid.getText().toString());
+            p.setHargaBuyNow(etHargaBuyNow.getText().toString());
             p.setTanggal(etTanggal.getText().toString());
             p.setWaktu(etWaktu.getText().toString());
+            p.setGambar(base64Image);
 
             this.dbRef.child(id).setValue(p);
             showSuccessDialog();
@@ -163,6 +197,9 @@ public class PostIklan extends AppCompatActivity implements View.OnClickListener
         }
         if (view.getId() == R.id.et_waktu) {
             showTimePicker();
+        }
+        if (view.getId() == R.id.bt_foto_barang) {
+            openGallery();
         }
     }
 }

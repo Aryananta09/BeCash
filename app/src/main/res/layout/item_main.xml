@@ -11,7 +11,7 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/ivImage"
         android:layout_width="98dp"
         android:layout_height="86dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,33 +19,24 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/tvJudul"
+        android:id="@+id/tvNama"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:text="Judul Barang"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/ivImage"
         tools:layout_editor_absoluteY="9dp" />
-
-    <TextView
-        android:id="@+id/tvDeskripsi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:maxWidth="200dp"
-        android:text="Deskripsi"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/tvJudul" />
 
     <TextView
         android:id="@+id/tvHarga"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:text="Rp. XXXX"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btBid"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/ivImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvNama" />
 
     <TextView
         android:id="@+id/tvTanggal"
@@ -54,7 +45,7 @@
         android:layout_marginTop="8dp"
         android:text="Tanggal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/ivImage" />
 
     <TextView
         android:id="@+id/tvWaktu"
@@ -64,13 +55,14 @@
         android:layout_marginTop="8dp"
         android:text="Waktu"
         app:layout_constraintStart_toEndOf="@+id/tvTanggal"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/ivImage" />
 
     <Button
         android:id="@+id/btBid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bid"
+        android:backgroundTint="#007BFF"
+        android:text="Detail"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

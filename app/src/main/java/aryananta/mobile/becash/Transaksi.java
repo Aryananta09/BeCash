@@ -6,12 +6,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -47,6 +43,11 @@ public class Transaksi extends AppCompatActivity implements View.OnClickListener
                 }
                 if (item.getItemId() == R.id.navigation_add) {
                     Intent notificationsIntent = new Intent(Transaksi.this, PostIklan.class);
+                    startActivity(notificationsIntent);
+                    return true;
+                }
+                if (item.getItemId() == R.id.live) {
+                    Intent notificationsIntent = new Intent(Transaksi.this, LelangLive.class);
                     startActivity(notificationsIntent);
                     return true;
                 }

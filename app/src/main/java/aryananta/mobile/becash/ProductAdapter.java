@@ -2,6 +2,7 @@ package aryananta.mobile.becash;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +16,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Database;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter {
-
+    public static final String
+            DBURL = "https://becash-8f35d-default-rtdb.asia-southeast1.firebasedatabase.app/";
     private final Context context;
     private final List<Produk> dataset;
     private DatabaseReference dbRef;
@@ -70,6 +75,11 @@ public class ProductAdapter extends RecyclerView.Adapter {
                     .setTitle("Konfirmasi Hapus")
                     .setMessage("Apakah Anda yakin ingin menghapus item ini?")
                     .setPositiveButton("Ya", (dialog, which) -> {
+                        // Ambil produkId dari produk yang dihapus
+                        String produkId = produk.getId();
+                        // Hapus bid terkait produk tersebut
+                        deleteRelatedBids(produkId, view);
+
                         // Jika pengguna menekan "Ya", hapus data
                         dbRef.child(this.produk.getId()).removeValue()
                                 .addOnSuccessListener(aVoid -> {
@@ -104,48 +114,48 @@ public class ProductAdapter extends RecyclerView.Adapter {
         vh.harga.setText((p.tawaran == null || p.tawaran.isEmpty()) ? "Belum Ada Tawaran" : "RP " + p.tawaran);
         vh.tanggal.setText(p.tanggal_bid);
         vh.waktu.setText(p.waktu_bid);
-
-        switch (p.nama_barang) {
-            case "Sepatu Nike":
-                vh.gambar.setImageResource(R.drawable.sepatu_nike);
-                break;
-            case "Sepatu Converse":
-                vh.gambar.setImageResource(R.drawable.sepatu_converse);
-                break;
-            case "Televisi":
-                vh.gambar.setImageResource(R.drawable.img_tv);
-                break;
-            case "Iphone 12":
-                vh.gambar.setImageResource(R.drawable.img_iphone);
-                break;
-            case "Rubicon":
-                vh.gambar.setImageResource(R.drawable.rubicon);
-                break;
-            case "Innova":
-                vh.gambar.setImageResource(R.drawable.innova);
-                break;
-            case "Kursi Kayu":
-                vh.gambar.setImageResource(R.drawable.kursi_kayu);
-                break;
-            case "Lemari Antik":
-                vh.gambar.setImageResource(R.drawable.lemari_antik);
-                break;
-            case "Meja Belajar":
-                vh.gambar.setImageResource(R.drawable.meja_belajar);
-                break;
-            case "Rak Meja":
-                vh.gambar.setImageResource(R.drawable.img_tv);
-                break;
-            default:
-                vh.gambar.setImageResource(R.drawable.holder);
-                break;
+        String base64Image = p.gambar;
+        if (base64Image != null) {
+            Bitmap bitmap = Base64Image.base64ToBitmap(base64Image); // Konversi Base64 ke Bitmap
+            vh.gambar.setImageBitmap(bitmap); // Tampilkan di ImageView
         }
+        else {
+            vh.gambar.setImageResource(R.drawable.holder);}
         vh.setProduk(p);
     }
 
     @Override
     public int getItemCount() {
         return dataset.size();
+    }
+    // Fungsi untuk menghapus bid terkait produkId
+    private void deleteRelatedBids(String produkId, View view) {
+        DatabaseReference bidsRef = FirebaseDatabase.getInstance(DBURL).getReference("bid");
+
+        // Cari semua bid yang terkait dengan produkId yang diberikan
+        bidsRef.orderByChild("produkId").equalTo(produkId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            // Loop untuk menghapus setiap bid yang terkait dengan produkId
+                            for (DataSnapshot bidSnapshot : dataSnapshot.getChildren()) {
+                                bidSnapshot.getRef().removeValue()
+                                        .addOnSuccessListener(aVoid -> {
+                                            // Hapus bid berhasil
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(view.getContext(), "Gagal menghapus bid: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(view.getContext(), "Gagal mengambil data bid: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 }

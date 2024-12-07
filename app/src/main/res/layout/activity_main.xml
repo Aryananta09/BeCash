@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="0dp"
-
     tools:context=".MainActivity">
 
 
@@ -57,90 +56,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Horizontal ScrollView for Categories -->
-    <HorizontalScrollView
-        android:id="@+id/kategori"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:scrollbars="none"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_atas">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <!-- Category Motor -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/category_motor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_motor" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="4dp"
-                    android:text="Motor" />
-            </LinearLayout>
-
-            <!-- Category Mobil -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/category_mobil"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_car" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="4dp"
-                    android:text="Mobil" />
-            </LinearLayout>
-
-            <!-- Category Elektro -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/ic_elektronik"
-                    android:layout_width="wrap_content"
-                    android:layout_height="49dp"
-                    app:srcCompat="@drawable/ic_elektronik" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="4dp"
-                    android:text="Elektro" />
-            </LinearLayout>
-
-            <!-- Tambah kategori lain sesuai kebutuhan -->
-
-        </LinearLayout>
-    </HorizontalScrollView>
 
 
     <TextView
@@ -148,12 +63,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        android:text="Lelang Langsung"
+        android:layout_marginTop="16dp"
+        android:text="Lelang Mendatang"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/kategori" />
+        app:layout_constraintTop_toBottomOf="@+id/rvLive" />
     <!-- HorizontalScrollView untuk CardView Kendaraan -->
 
     <!-- HorizontalScrollView untuk CardView Kendaraan -->
@@ -178,5 +93,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/judulLive" />
+
+    <TextView
+        android:id="@+id/tv_Live"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="Lelang Langsung"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_atas" />
+
+    <TextView
+        android:id="@+id/tvSeeMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="See More >>"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_atas" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLive"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Live" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
