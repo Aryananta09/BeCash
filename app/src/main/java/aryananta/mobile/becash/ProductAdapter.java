@@ -72,8 +72,8 @@ public class ProductAdapter extends RecyclerView.Adapter {
         public void onClick(View view) {
             // Membuat AlertDialog untuk konfirmasi
             new AlertDialog.Builder(view.getContext())
-                    .setTitle("Konfirmasi Hapus")
-                    .setMessage("Apakah Anda yakin ingin menghapus item ini?")
+                    .setTitle("Konfirmasi Akhiri Lelang")
+                    .setMessage("Apakah Anda yakin ingin mengakhiri lelang produk ini?")
                     .setPositiveButton("Ya", (dialog, which) -> {
                         // Ambil produkId dari produk yang dihapus
                         String produkId = produk.getId();
@@ -83,10 +83,10 @@ public class ProductAdapter extends RecyclerView.Adapter {
                         // Jika pengguna menekan "Ya", hapus data
                         dbRef.child(this.produk.getId()).removeValue()
                                 .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(view.getContext(), "Item berhasil dihapus", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(view.getContext(), "Lelang diakhiri", Toast.LENGTH_SHORT).show();
                                 })
                                 .addOnFailureListener(e -> {
-                                    Toast.makeText(view.getContext(), "Gagal menghapus item: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(view.getContext(), "Gagal mengakhiri : " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 });
                     })
                     .setNegativeButton("Tidak", (dialog, which) -> {

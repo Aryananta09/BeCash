@@ -124,17 +124,6 @@ public class LelangLive extends AppCompatActivity {
         });
     }
 
-//    private List<LelangItem> getLelangItems() {
-//        List<LelangItem> items = new ArrayList<>();
-//        items.add(new LelangItem(1, "Toyota Avanza 2012", "Buka harga 90.000.000", R.drawable.avanza));
-//        items.add(new LelangItem(2, "Honda Beat 2019", "Buka harga 8.000.000", R.drawable.beat));
-//        items.add(new LelangItem(3, "Innova Reborn", "Buka harga 130.000.000", R.drawable.innova));
-//        items.add(new LelangItem(4, "Kijang 1990", "Buka harga 75.000.000", R.drawable.kijang));
-//        items.add(new LelangItem(5, "Honda Jazz 2018", "Buka harga 120.000.000", R.drawable.jazz));
-//        items.add(new LelangItem(6, "Grand Max Pickup", "Buka harga 80.000.000", R.drawable.pickup));
-//        items.add(new LelangItem(7, "Yamaha R15", "Buka harga 10.000.000", R.drawable.r15));
-//        return items;
-//    }
 
     private void onItemClick(Produk item) {
         saveToRiwayat(item);
@@ -149,7 +138,6 @@ public class LelangLive extends AppCompatActivity {
         bundle.putString("tanggal", item.getTanggal());
         bundle.putString("waktu", item.getWaktu());
         bundle.putString("deskripsi", item.getDeskripsi());
-        bundle.putString("gambar", item.getGambar());
 
         intent.putExtras(bundle);
         startActivity(intent);

@@ -139,7 +139,7 @@ public class BidAdapter extends RecyclerView.Adapter {
                                 hargaBid, // Harga bid yang diinputkan
                                 tanggalBid, // Tanggal saat bid dimasukkan
                                 waktuBid, // Waktu saat bid dimasukkan
-                                ""
+                                bid.getGambar()
                         );
 
                         // Update bid di Firebase
